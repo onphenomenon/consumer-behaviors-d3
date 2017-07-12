@@ -1,0 +1,277 @@
+<html>
+
+<head>
+    <title>Data Viz Tool Consumer Behaviors</title>
+    <meta charset="utf-8" />
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <!--<script type='text/javascript' src="./tip.js"></script>-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</head>
+<style>
+    svg {
+        border: 1px solid gray;
+    }
+    
+    .axis text {
+        font: 10px sans-serif;
+    }
+
+    .axis path .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                    <li role="presentation"><a href="#">About</a></li>
+                    <li role="presentation"><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Vizualizing Types</h3>
+        </div>
+
+        <div class="jumbotron">
+            <h3>Consumer Behaviors</h3>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+
+            </div>
+            <div class="col-lg-6">
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; Karianne Burns</p>
+        </footer>
+
+    </div>
+    <!-- /container -->
+</body>
+<footer>
+    <script>
+        var data = [
+            [
+                {
+                    trait: "dynamism",
+                    value: 0.554117085723772
+                },
+                {
+                    trait: "established",
+                    value: 0.1799493827786
+                },
+                {
+                    trait: "gender",
+                    value: -0.0234223513074447
+                },
+                {
+                    trait: "scope of interest",
+                    value: 0.553701062283541
+                },
+                {
+                    trait: "belonging vs. individualistic",
+                    value: 0.148021000260861
+                },
+                {
+                    trait: "image conscious vs. function",
+                    value: -0.327386459187601
+                },
+                {
+                    trait: "interpersonal: approach vs. avoid",
+                    value: 0.471156501463304
+                },
+                {
+                    trait: "societal: mainstream vs. edge",
+                    value: 0.0485638032195008
+                }
+            ],
+            [
+                {
+                    trait: "dynamism",
+                    value: 0.554117085723772
+                },
+                {
+                    trait: "established",
+                    value: 0.1799493827786
+                },
+                {
+                    trait: "gender",
+                    value: -0.0234223513074447
+                },
+                {
+                    trait: "scope of interest",
+                    value: 0.553701062283541
+                },
+                {
+                    trait: "belonging vs. individualistic",
+                    value: 0.148021000260861
+                },
+                {
+                    trait: "image conscious vs. function",
+                    value: -0.327386459187601
+                },
+                {
+                    trait: "interpersonal: approach vs. avoid",
+                    value: 0.471156501463304
+                },
+                {
+                    trait: "societal: mainstream vs. edge",
+                    value: 0.0485638032195008
+                }
+            ]
+        ]
+        var dataFormat = [
+            [
+                0.554117085723772,
+                0.1799493827786,
+                -0.0234223513074447,
+                0.553701062283541,
+                0.148021000260861,
+                -0.327386459187601,
+                0.471156501463304,
+                0.0485638032195008
+
+            ],
+            [
+                -0.500440218655123,
+                -0.201692743907916,
+                0.0795270240612856,
+                -0.500959402500845,
+                0.558032751291082,
+                0.339611190528082,
+                0.101487007229173,
+                -0.120659973543551
+                ]
+            // ],
+            // [
+            //     0.706146114074915,
+            //     -0.0734598955526958,
+            //     0.0313811812945936,
+            //     0.120261834544106,
+            //     0.437551143110873,
+            //     0.00382351764716891,
+            //     0.417356359479816,
+            //     -0.338912479870321
+            // ], 
+            // [
+            //     -0.394957571751026,
+            //     -0.502739292755425,
+            //     -0.37307021437859,
+            //     -0.391861797995883,
+            //     0.0504652287007037,
+            //     0.428050736738713,
+            //     -0.334098507827167,
+            //     0.0335958477872693
+            // ]
+        ]
+        var arrayOfSelection = [
+            "I am often interested in theories.",
+            "I am often NOT interested in theories.",
+
+        ]
+        var margin = { top: 20, right: 10, bottom: 20, left: 10 };
+        outerWidth = 1000,
+            outerHeight = 960,
+            innerWidth = outerWidth - margin.left - margin.right,
+            innerHeight = outerHeight - margin.top - margin.bottom;
+        var yOrdinal = [
+            "dynamism",
+            "established",
+            "gender",
+            "scope of interest",
+            "belonging vs. individualistic",
+            "image conscious vs. function",
+            "interpersonal: approach vs. avoid",
+            "societal: mainstream vs. edge"
+        ]
+        var colors = ["#66CCCC",
+            "#FFFF99", "#CC9999",
+            "#666633", "#993300",
+            "#ff9966", "#339999",
+            "#6699cc", "#ffcc66",
+            "#ff6600", "#00ccccc"]
+
+
+        var svg = d3.select("div.jumbotron").append("svg")
+            .attr("width", outerWidth)
+            .attr("height", outerHeight)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var xScale = d3.scaleLinear().domain([-1, 1]).range([0, innerWidth]);
+
+        var yScaleCategories = d3.scaleBand().domain(yOrdinal).rangeRound([0, innerHeight]);
+        var yScaleNumber = d3.scaleBand().domain(d3.range(8)).rangeRound([0, innerHeight]);
+        var yCategoryBandwidth = yScaleCategories.bandwidth();
+       
+        var yScaleGroup = d3.scaleBand().domain(d3.range(dataFormat.length)).rangeRound([0, yCategoryBandwidth]).padding(0.05);
+         var yGroupBandwidth = yScaleGroup.bandwidth();
+
+        var zColorScale = d3.scaleOrdinal().range(["darkorange", "blue", "crimson", "deeppink", "#a05d56", "#d0743c", "#ff8c00"]);
+
+
+        var yAxisLeft = d3.axisRight(yScaleCategories).tickSize(innerWidth);
+        function customYAxis(g) {
+            g.call(yAxisLeft);
+            g.select(".domain").remove();
+            g.selectAll(".tick line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+            g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
+        }
+        var yAxisCenter = d3.axisLeft(yScaleCategories);
+        var xAxisBottom = d3.axisBottom(xScale).tickSize(5)
+
+        //X AXIS
+        svg.append("g")
+            .attr("class", "x axis")
+            // .attr("transform", "translate(0,20)")
+            .attr("transform", "translate(0," + innerHeight + ")")
+            .call(xAxisBottom);
+
+        //Y AXIS LEFT
+        svg.append("g")
+            .attr("class", "y left")
+            .attr("transform", "translate(10,0)")
+            .call(customYAxis);
+
+        svg.append("g").selectAll("g")
+            .data(dataFormat)
+            .enter().append("g")
+            .style("fill", function (d, i) { return zColorScale(i); })
+            .attr("transform", function (d, i) { return "translate(0, " + yScaleGroup(i) + ")"; })
+            .selectAll("rect")
+            .data(function (d) { 
+                console.log("D2: ", d )
+                return d; })
+            .enter().append("rect")
+            .attr("width", function (d, i) { return Math.abs(xScale(d) - xScale(0)); })
+            .attr("height", yGroupBandwidth)
+            .attr("x", function (d) {
+                console.log("Value: ", d)
+                return xScale(Math.min(0, d))
+            })
+            .attr("y", function (d, i) {
+                console.log("I: ", i)
+                console.log("yScaleCategories(i)", yScaleCategories(i))
+                 return yScaleNumber(i); })
+       
+        //Y AXIS CENTER
+        svg.append("g")
+            .attr("class", "y center")
+            .attr("transform", "translate(" + xScale(0) + ",0)")
+            .call(yAxisCenter);
+    </script>
+</footer>
+
+</html>

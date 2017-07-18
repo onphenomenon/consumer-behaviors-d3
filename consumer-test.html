@@ -6,16 +6,24 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
     <!--<script type='text/javascript' src="./tip.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
+
 </head>
 <style>
     svg {
         border: 1px solid gray;
     }
-    
+
     .axis text {
         font: 10px sans-serif;
     }
@@ -39,7 +47,44 @@
             </nav>
             <h3 class="text-muted">Vizualizing Types</h3>
         </div>
-
+        <div class="row">
+            <div class="col-lg-3">
+                <h3>BASE SELECTION</h3>
+                <select class="selectpicker">
+                    <option selected="selected">----- select attitude item ------</option>
+                </select>
+                <div class="selected-item">
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Attitude Item</th>
+                            <th>Color</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="selection-1">
+                            <th scope="row"></th>
+                            <td></td>
+                        </tr>
+                        <tr class="selection-2">
+                            <th scope="row"></th>
+                            <td></td>
+                        </tr>
+                        <tr class="selection-3">
+                            <th scope="row"></th>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr class="selection-4">
+                            <th scope="row"></th>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="jumbotron">
             <h3>Consumer Behaviors</h3>
 
@@ -62,125 +107,31 @@
 </body>
 <footer>
     <script>
-        var data = [
-            [
-                {
-                    trait: "dynamism",
-                    value: 0.554117085723772
-                },
-                {
-                    trait: "established",
-                    value: 0.1799493827786
-                },
-                {
-                    trait: "gender",
-                    value: -0.0234223513074447
-                },
-                {
-                    trait: "scope of interest",
-                    value: 0.553701062283541
-                },
-                {
-                    trait: "belonging vs. individualistic",
-                    value: 0.148021000260861
-                },
-                {
-                    trait: "image conscious vs. function",
-                    value: -0.327386459187601
-                },
-                {
-                    trait: "interpersonal: approach vs. avoid",
-                    value: 0.471156501463304
-                },
-                {
-                    trait: "societal: mainstream vs. edge",
-                    value: 0.0485638032195008
-                }
-            ],
-            [
-                {
-                    trait: "dynamism",
-                    value: 0.554117085723772
-                },
-                {
-                    trait: "established",
-                    value: 0.1799493827786
-                },
-                {
-                    trait: "gender",
-                    value: -0.0234223513074447
-                },
-                {
-                    trait: "scope of interest",
-                    value: 0.553701062283541
-                },
-                {
-                    trait: "belonging vs. individualistic",
-                    value: 0.148021000260861
-                },
-                {
-                    trait: "image conscious vs. function",
-                    value: -0.327386459187601
-                },
-                {
-                    trait: "interpersonal: approach vs. avoid",
-                    value: 0.471156501463304
-                },
-                {
-                    trait: "societal: mainstream vs. edge",
-                    value: 0.0485638032195008
-                }
-            ]
-        ]
-        var dataFormat = [
-            [
-                0.554117085723772,
-                0.1799493827786,
-                -0.0234223513074447,
-                0.553701062283541,
-                0.148021000260861,
-                -0.327386459187601,
-                0.471156501463304,
-                0.0485638032195008
+        var newZValues = [];
+        var keyOfSelection = [];
 
-            ],
-            [
-                -0.500440218655123,
-                -0.201692743907916,
-                0.0795270240612856,
-                -0.500959402500845,
-                0.558032751291082,
-                0.339611190528082,
-                0.101487007229173,
-                -0.120659973543551
-                ]
-            // ],
-            // [
-            //     0.706146114074915,
-            //     -0.0734598955526958,
-            //     0.0313811812945936,
-            //     0.120261834544106,
-            //     0.437551143110873,
-            //     0.00382351764716891,
-            //     0.417356359479816,
-            //     -0.338912479870321
-            // ], 
-            // [
-            //     -0.394957571751026,
-            //     -0.502739292755425,
-            //     -0.37307021437859,
-            //     -0.391861797995883,
-            //     0.0504652287007037,
-            //     0.428050736738713,
-            //     -0.334098507827167,
-            //     0.0335958477872693
-            // ]
-        ]
-        var arrayOfSelection = [
-            "I am often interested in theories.",
-            "I am often NOT interested in theories.",
+        function rowParser(row) {
+            var zValues = [];
+            keyOfSelection.push(row.trait.trim());
+            zValues.push(
+                row["market energy"],
+                row["established"],
+                row["gender"],
+                row["scope of interest"],
+                row["affiliation preference"],
+                row["consumer value"],
+                row["interpersonal style"],
+                row["societal position"])
+            newZValues.push(zValues)
+        }
 
-        ]
+        d3.csv("./baseMRI.csv", rowParser, function (rows) {
+            var select = $("select");
+            $.each(keyOfSelection, function (index, item) {
+                select.append($("<option />").val(index).text(item));
+            });
+        });
+
         var margin = { top: 20, right: 10, bottom: 20, left: 10 };
         outerWidth = 1000,
             outerHeight = 960,
@@ -215,9 +166,9 @@
         var yScaleCategories = d3.scaleBand().domain(yOrdinal).rangeRound([0, innerHeight]);
         var yScaleNumber = d3.scaleBand().domain(d3.range(8)).rangeRound([0, innerHeight]);
         var yCategoryBandwidth = yScaleCategories.bandwidth();
-       
-        var yScaleGroup = d3.scaleBand().domain(d3.range(dataFormat.length)).rangeRound([0, yCategoryBandwidth]).padding(0.05);
-         var yGroupBandwidth = yScaleGroup.bandwidth();
+
+
+
 
         var zColorScale = d3.scaleOrdinal().range(["darkorange", "blue", "crimson", "deeppink", "#a05d56", "#d0743c", "#ff8c00"]);
 
@@ -245,32 +196,65 @@
             .attr("transform", "translate(10,0)")
             .call(customYAxis);
 
-        svg.append("g").selectAll("g")
-            .data(dataFormat)
-            .enter().append("g")
-            .style("fill", function (d, i) { return zColorScale(i); })
-            .attr("transform", function (d, i) { return "translate(0, " + yScaleGroup(i) + ")"; })
-            .selectAll("rect")
-            .data(function (d) { 
-                console.log("D2: ", d )
-                return d; })
-            .enter().append("rect")
-            .attr("width", function (d, i) { return Math.abs(xScale(d) - xScale(0)); })
-            .attr("height", yGroupBandwidth)
-            .attr("x", function (d) {
-                console.log("Value: ", d)
-                return xScale(Math.min(0, d))
-            })
-            .attr("y", function (d, i) {
-                console.log("I: ", i)
-                console.log("yScaleCategories(i)", yScaleCategories(i))
-                 return yScaleNumber(i); })
-       
-        //Y AXIS CENTER
-        svg.append("g")
-            .attr("class", "y center")
-            .attr("transform", "translate(" + xScale(0) + ",0)")
-            .call(yAxisCenter);
+        var dropdownSelection = [];
+        var currentZArrayChoices = [];
+        $(document).ready(function () {
+            console.log("ready!");
+            $("select")
+                .change(function () {
+                    console.log("SELECTED: ", $(this))
+                    var str = "";
+                    $("select option:selected").each(function () {
+                        str += $(this).text() + " ";
+                    });
+                    $(".selected-item").text(str);
+                    currentZArrayChoices.push(newZValues[parseInt($(this)[0].value)])
+                    if (dropdownSelection.length === 4) {
+                        dropdownSelection.shift();
+                        currentZArrayChoices.shift();
+                    }
+                    dropdownSelection.push({
+                        id: parseInt($(this)[0].value),
+                        attribute: $(".selected-item").text()
+                    });
+                    $(".selection-1 th").text(dropdownSelection[0].attribute);
+                    if (dropdownSelection[1] !== undefined) $(".selection-2 th").text(dropdownSelection[1].attribute);
+                    if (dropdownSelection[2] !== undefined) $(".selection-3 th").text(dropdownSelection[2].attribute);
+                    if (dropdownSelection[3] !== undefined) $(".selection-4 th").text(dropdownSelection[3].attribute);
+
+                    selectAttitudeItems(currentZArrayChoices)
+                })
+
+                
+        });
+
+        function selectAttitudeItems(newData) {
+            var yScaleGroup = d3.scaleBand().domain(d3.range(newData.length)).rangeRound([0, yCategoryBandwidth]).padding(0.05);
+            var yGroupBandwidth = yScaleGroup.bandwidth();
+
+            svg.append("g").selectAll("g")
+                .data(newData)
+                .enter().append("g")
+                .style("fill", function (d, i) { return zColorScale(i); })
+                .attr("transform", function (d, i) { return "translate(0, " + yScaleGroup(i) + ")"; })
+                .selectAll("rect")
+                .data(function (d) { return d; })
+                .enter().append("rect")
+                .attr("width", function (d, i) { return Math.abs(xScale(d) - xScale(0)); })
+                .attr("height", yGroupBandwidth)
+                .attr("x", function (d) {
+                    return xScale(Math.min(0, d))
+                })
+                .attr("y", function (d, i) {
+                    return yScaleNumber(i);
+                })
+
+            //Y AXIS CENTER
+            svg.append("g")
+                .attr("class", "y center")
+                .attr("transform", "translate(" + xScale(0) + ",0)")
+                .call(yAxisCenter);
+        }
     </script>
 </footer>
 

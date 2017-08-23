@@ -15,7 +15,7 @@
 </head>
 <style>
     svg {
-        border: 1px solid gray;
+        /* border-top: 1px solid gray; */
     }
     select {
         width: 250px;
@@ -142,15 +142,25 @@
             outerHeight = 960,
             innerWidth = outerWidth - margin.left - margin.right,
             innerHeight = outerHeight - margin.top - margin.bottom;
-        var yOrdinal = [
-            "Dynamism",
+        var yOrdinalLeft = [
+            "High Market Dynamism",
             "Established",
-            "Gender",
-            "Scope of Interest",
-            "Belonging vs. Individualistic",
-            "Image Conscious vs. Function",
-            "Interpersonal: Approach vs. Avoid",
-            "Societal: Mainstream vs. Edge"
+            "Cultural Gender: Feminine",
+            "Broader Scope of Interest",
+            "Adherence: Group Belonging",
+            "Consumer Value: Image Conscious",
+            "Interpersonal Style: Approach",
+            "Societal Position: Center"
+        ]
+         var yOrdinalRight = [
+            "Low Market Dynamism",
+            "Unestablished",
+            "Cultural Gender: Macho",
+            "Narrow Scope of Interest",
+            "Adherence: Self-Directed",
+            "Consumer Value: Function-Oriented",
+            "Interpersonal Style: Avoidant",
+            "Societal Position: Edge"
         ]
         var colors = ["#66CCCC",
             "#FFFF99", "#CC9999",
@@ -168,35 +178,66 @@
 
         var xScale = d3.scaleLinear().domain([-1, 1]).range([0, innerWidth]);
 
-        var yScaleCategories = d3.scaleBand().domain(yOrdinal).rangeRound([0, innerHeight]);
+        var yScaleCategoriesLeft = d3.scaleBand().domain(yOrdinalLeft).rangeRound([0, innerHeight]);
+        var yScaleCategoriesRight = d3.scaleBand().domain(yOrdinalRight).rangeRound([0, innerHeight]);
         var yScaleNumber = d3.scaleBand().domain(d3.range(8)).rangeRound([0, innerHeight]);
-        var yCategoryBandwidth = yScaleCategories.bandwidth();
+        var yCategoryBandwidth = yScaleCategoriesLeft.bandwidth();
         var zColorScale = d3.scaleOrdinal().range(["#77C904", "#57BC90", "#328CC1", "#77C9D4"]);
 
-        var yAxisLeft = d3.axisRight(yScaleCategories).tickSize(innerWidth);
-        function customYAxis(g) {
+
+        var yAxisLeft = d3.axisRight(yScaleCategoriesLeft).tickSize(innerWidth);
+        var yAxisCenter = d3.axisLeft(yScaleCategoriesLeft);
+        var yAxisRight = d3.axisRight(yScaleCategoriesRight).tickSize(innerWidth);
+        var xAxisBottom = d3.axisBottom(xScale).tickSize(5)
+        
+        function customYAxisLeft(g) {
             g.call(yAxisLeft);
             g.select(".domain").remove();
             g.selectAll(".tick line").remove();
-            g.selectAll(".tick line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
-            g.selectAll(".tick text").attr("x", 4).attr("dy", 16)
-            .attr("font-size", 16);
+            //g.selectAll(".tick line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+            g.selectAll(".tick text").attr("x", 4)
+            .attr("font-size", 12);
         }
-        var yAxisCenter = d3.axisLeft(yScaleCategories);
-        var xAxisBottom = d3.axisBottom(xScale).tickSize(5)
 
+        function customYAxisCenter(g) {
+            g.call(yAxisCenter)
+            g.selectAll(".tick").remove();
+        }
+
+        function customYAxisRight(g) {
+            g.call(yAxisRight)
+            g.select(".domain").remove();
+            g.selectAll(".tick line").remove();
+            g.selectAll(".tick text").attr("x", 4)
+            .attr("font-size", 12);
+        }
+
+        function customXAxisCategories(g) {
+            g.call(xAxisBottom)
+            g.selectAll(".tick").remove();
+            //g.selectAll(".tick").remove();
+        }
+
+
+       
         //X AXIS
         svg.append("g")
             .attr("class", "x axis")
             // .attr("transform", "translate(0,20)")
             .attr("transform", "translate(0," + innerHeight + ")")
             .call(xAxisBottom);
-
+        
         //Y AXIS LEFT
         svg.append("g")
             .attr("class", "y left")
-            .attr("transform", "translate(10,0)")
-            .call(customYAxis);
+            .attr("transform", "translate(5,0)")
+            .call(customYAxisLeft);
+        
+         //Y AXIS Right
+        svg.append("g")
+            .attr("class", "y right")
+            .attr("transform", "translate(850,0)")
+            .call(customYAxisRight);
         
         var g = svg.append('g');
 
@@ -283,7 +324,25 @@
             svg.append("g")
                 .attr("class", "y center")
                 .attr("transform", "translate(" + xScale(0) + ",0)")
-                .call(yAxisCenter);
+                .call(customYAxisCenter);
+
+            //A axises separating bar groups?
+                    //GROUP X AXIS
+        yOrdinalRight.forEach((item, index) => {
+            svg.append("g")
+            .attr("class", "category 1x axis")
+            // .attr("transform", "translate(0,20)")
+            .attr("transform", "translate(0," + yCategoryBandwidth*(index+1) + ")")
+            .call(customXAxisCategories);
+        });
+
+
+        // svg.append("g")
+        //     .attr("class", "category 1x axis")
+        //     // .attr("transform", "translate(0,20)")
+        //     .attr("transform", "translate(0," + yCategoryBandwidth*2 + ")")
+        //     .call(customXAxisCategories);
+            
         }
     </script>
 </footer>

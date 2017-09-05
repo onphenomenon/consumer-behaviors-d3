@@ -131,7 +131,6 @@
         </div>
 
         <footer class="footer">
-            <p>&copy; Cheri Anderson</p>
         </footer>
 
     </div>
@@ -219,6 +218,7 @@
             g.select(".domain").remove();
             g.selectAll(".tick line").remove();
             g.selectAll(".tick text").attr("x", 4)
+             .attr("font-weight", "bold")
                 .attr("font-size", 16);
         }
 
@@ -233,7 +233,9 @@
             g.select(".domain").remove();
             g.selectAll(".tick line").remove();
             g.selectAll(".tick text").attr("x", 4)
-                .attr("font-size", 16);
+                .attr("font-size", 16)
+                .attr("font-weight", "bold")
+                .attr("transform", "translate(-50,0)")
         }
 
         function customXAxisCategories(g) {
